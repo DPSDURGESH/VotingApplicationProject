@@ -1,0 +1,189 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <link rel="stylesheet" href="voting.css">
+</head>
+<body>
+    <h1>Voting Page</h1>
+    <p>Voting: The heartbeat of democracy</p>
+    <form id="votingForm">
+        <input type="radio" id="candidate1" name="candidate" value="Durgesh">
+        <label for="candidate1">Durgesh</label><br>
+        <input type="radio" id="candidate2" name="candidate" value="Sheela">
+        <label for="candidate2">Sheela</label><br>
+        <input type="radio" id="candidate3" name="candidate" value="Rahul">
+        <label for="candidate3">Rahul</label><br>
+        <input type="radio" id="candidate4" name="candidate" value="Kaustubh">
+        <label for="candidate4">Kaustubh</label><br>
+        <button type="submit" id="submitVote">Vote</button>
+    </form>
+    <script src="voting.js"></script>
+</body>
+</html>-->
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <link rel="stylesheet" href="voting.css">
+</head>
+<body>
+    <h1>Voting Page</h1>
+    <p>Voting: The heartbeat of democracy</p>
+    <form id="votingForm">
+        <input type="radio" id="candidate1" name="candidate" value="Durgesh" required>
+        <label for="candidate1">Durgesh</label><br>
+        <input type="radio" id="candidate2" name="candidate" value="Sheela" required>
+        <label for="candidate2">Sheela</label><br>
+        <input type="radio" id="candidate3" name="candidate" value="Rahul" required>
+        <label for="candidate3">Rahul</label><br>
+        <input type="radio" id="candidate4" name="candidate" value="Kaustubh" required>
+        <label for="candidate4">Kaustubh</label><br>
+        <button type="submit" id="submitVote">Vote</button>
+    </form>
+    <script src="voting.js"></script>
+</body>
+</html>
+-->
+<!--
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <link rel="stylesheet" href="voting.css">
+     Include jQuery 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Voting Page</h1>
+    <p>Voting: The heartbeat of democracy</p>
+    <form id="votingForm">
+        <input type="radio" id="candidate1" name="candidate" value="Durgesh" required>
+        <label for="candidate1">Durgesh</label><br>
+        <input type="radio" id="candidate2" name="candidate" value="Sheela" required>
+        <label for="candidate2">Sheela</label><br>
+        <input type="radio" id="candidate3" name="candidate" value="Rahul" required>
+        <label for="candidate3">Rahul</label><br>
+        <input type="radio" id="candidate4" name="candidate" value="Kaustubh" required>
+        <label for="candidate4">Kaustubh</label><br>
+        <button type="submit" id="submitVote">Vote</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#votingForm').on('submit', function (event) {
+                event.preventDefault();
+                const candidate = $('input[name="candidate"]:checked').val();
+
+                $.ajax({
+                    url: 'http://localhost:8080/vote',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: `candidate=${candidate}`, // Adjusted data to match application/x-www-form-urlencoded
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = '/welcome.html';
+                        } else {
+                            alert("User has already voted.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + xhr.responseText); // Improved error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <link rel="stylesheet" href="voting.css">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Voting Page</h1>
+    <p>Voting: The heartbeat of democracy</p>
+    <form id="votingForm">
+        <input type="radio" id="candidate1" name="candidate" value="Durgesh" required>
+        <label for="candidate1">Durgesh</label><br>
+        <input type="radio" id="candidate2" name="candidate" value="Sheela" required>
+        <label for="candidate2">Sheela</label><br>
+        <input type="radio" id="candidate3" name="candidate" value="Rahul" required>
+        <label for="candidate3">Rahul</label><br>
+        <input type="radio" id="candidate4" name="candidate" value="Kaustubh" required>
+        <label for="candidate4">Kaustubh</label><br>
+        <button type="submit" id="submitVote">Vote</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            // Function to retrieve cookie value by name
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) 
+                    return parts.pop().split(";").shift();
+            }
+
+            $('#votingForm').on('submit', function (event) {
+                event.preventDefault();
+                const candidate = $('input[name="candidate"]:checked').val();
+
+                // Check if token is present
+                var token = getCookie('jwtToken');
+                if (!token) {
+                    console.error('JWT Token not found.');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'http://localhost:8080/votes/vote',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ candidate: candidate }), // Sending candidate as JSON
+                    headers: {
+                        'Authorization': 'Bearer ' + token // Include JWT token in headers
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = '/welcome.html';
+                        } else {
+                            alert("User has already voted.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+

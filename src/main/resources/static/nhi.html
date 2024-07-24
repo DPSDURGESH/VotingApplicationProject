@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Information</title>
+    <!-- Bootstrap CSS (optional for styling) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch wallet information using AJAX
+            function fetchWalletInfo(token) {
+                // Check if token is present
+                if (!token) {
+                    console.error('JWT Token not found.');
+                    return;
+                }
+
+                // AJAX request to fetch wallet information
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/api/wallet',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (response) {
+                        console.log('Wallet Info:', response);
+
+                        // Display wallet information in HTML
+                        $('#walletId').text('Wallet ID: ' + response.walletId);
+                        $('#balance').text('Balance: Rs :- ' + response.toFixed(2));
+                        $('#currency').text('Currency: ' + response.currency);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('Failed to fetch wallet information. Please try again.');
+                    }
+                });
+            }
+
+            // Function to fetch transactions using AJAX
+            function fetchTransactions(token) {
+                // AJAX request to fetch transactions
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/transactions',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    success: function (transactions) {
+                        console.log('Transactions:', transactions);
+
+                        // Generate HTML for transactions
+                        var transactionsHtml = '';
+                        transactions.forEach(function(transaction) {
+                            transactionsHtml += `
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${transaction.description}</h5>
+                                            <p class="card-text">Amount: ${transaction.amount}</p>
+                                            <p class="card-text">Type: ${transaction.type}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        // Append transactions HTML to container
+                        $('#transactionContainer').html(transactionsHtml);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching transactions:', error);
+                        alert('Failed to fetch transactions. Please try again.');
+                    }
+                });
+            }
+
+            // Function to retrieve cookie value by name
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) 
+                	return parts.pop().split(";").shift();
+            }
+
+            // Retrieve JWT token from cookie
+            var token = getCookie('jwtToken');
+
+            // Call fetchWalletInfo with retrieved token
+            fetchWalletInfo(token);
+
+            // Call fetchTransactions with retrieved token
+            fetchTransactions(token);
+        });
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center">Wallet Information</h2>
+                    </div>
+                    <div class="card-body">
+                       
+                        <p id="balance"></p>
+                        <button>
+							<a href="/AddTransaction.html">Add Transaction</a>
+						</button>
+                        
+                       
+                    </divs
+                </div>
+            </div>
+        </div>
+        <div class="row" id="transactionContainer">
+            <!-- Transactions will be dynamically added here -->
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <link rel="stylesheet" href="votecount.css">
+    <style th:inline="css">
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Vote Counts Styling */
+        #voteCounts {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #voteCounts p {
+            margin-bottom: 10px;
+        }
+
+        #voteCounts span {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #voteCounts {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+	<form action="#" th:action="@{/votecounts}" th:object="${vote}" method="post">
+    <h1>Voting Page</h1>
+    <p>"It's not the voting that's democracy; it's the counting."</p>
+    <div id="voteCounts">
+        <p th:each="entry : ${voteCounts}" th:text="${entry.key}: ${entry.value}"></p>
+    </div>
+    <p><a href="voting.html" class="voting">voting</a></p>
+</body>
+</html>

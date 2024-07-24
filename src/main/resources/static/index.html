@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voting App</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('votingForm');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const userId = document.getElementById('userId').value;
+                const candidateId = document.querySelector('input[name="candidate"]:checked').value;
+
+                const response = await fetch(`/vote/hasVoted?userId=${userId}`);
+                const hasVoted = await response.json();
+
+                if (hasVoted) {
+                    alert('You have already voted. Thank you!');
+                    return;
+                }
+
+                const result = await fetch(`/vote/cast?userId=${userId}&candidateId=${candidateId}`, {
+                    method: 'POST'
+                });
+                const message = await result.text();
+                alert(message);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Vote for Your Candidate</h1>
+    <form id="votingForm">
+        <label>
+            User ID:
+            <input type="text" id="userId" name="userId" required>
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="candidate" value="1"> Durgesh
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="candidate" value="2"> Sheela
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="candidate" value="3"> Rahul
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="candidate" value="4"> Kastubha
+        </label>
+        <br>
+        <button type="submit">Submit Vote</button>
+    </form>
+</body>
+</html>

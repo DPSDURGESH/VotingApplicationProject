@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Next Level Login & Registration Form</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<form id="signupForm">
+		<div class="container">
+			<div class="form signup">
+				<h2>Sign Up</h2>
+				<div class="inputBox">
+					<input type="text" id="usernameInput" required="required">
+					<i class="fa-regular fa-user"></i>
+					<span>username</span>
+				</div>
+				<div class="inputBox">
+					<input type="email" id="emailInput" required="required">
+					<i class="fa-regular fa-envelope"></i>
+					<span>email address</span>
+				</div>
+				<div class="inputBox">
+					<input type="password" id="passwordInput" required="required">
+					<i class="fa-solid fa-lock"></i>
+					<span>create password</span>
+				</div>
+				<div class="inputBox">
+					<input type="password" id="confirmPasswordInput" required="required">
+					<i class="fa-solid fa-lock"></i>
+					<span>confirm password</span>
+				</div>
+				<div class="inputBox">
+					<input type="submit" value="Create Account" id="registerBtn">
+				</div>
+				<p>Already a member? <a href="login.html" class="login">Log in</a></p>
+			</div>
+		</div>
+	</form>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#signupForm').submit(function (event) {
+				event.preventDefault(); // Prevent default form submission
+
+				// Collect user data from input fields
+				var username = $('#usernameInput').val();
+				var email = $('#emailInput').val();
+				var password = $('#passwordInput').val();
+				var confirmPassword = $('#confirmPasswordInput').val();
+
+				// Validate password and confirmPassword
+				if (password !== confirmPassword) {
+					alert("Passwords do not match");
+					return;
+				}
+
+				// Construct user object
+				var userData = {
+					"id": Math.floor(Math.random() * 1000), // Generating a random ID (just for example)
+					"username": username,
+					"email": email,
+					"password": password
+				};
+
+				// Send AJAX request
+				$.ajax({
+					url: 'http://localhost:8080/api/users/register',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(userData),
+					success: function (response) {
+						console.log('Registration successful:', response);
+						alert("Registration successful");
+						// Handle success here, like redirecting to a new page or displaying a message
+						// Redirect to the dashboard page upon successful authentication
+						window.location.href = '/login.html';
+					},
+					error: function (xhr, status, error) {
+						console.error('Registration failed:', error);
+						// Handle error here, like displaying an error message to the user
+					}
+				});
+			});
+		});
+
+	</script>
+	
+</body>
+
+</html>

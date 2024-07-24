@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <style th:inline="css">
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Form Styles */
+        #votingForm {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #votingForm input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        #votingForm label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #votingForm button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #votingForm button:hover {
+            background-color: #0056b3;
+        }
+
+        #votingForm button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <form action="" th:action="@{/voting}" th:object="${vote}" method="post">
+        <h1>Voting Page</h1>
+        <p>Voting: The heartbeat of democracy</p>
+        <div id="votingForm">
+            <input type="radio" id="candidate1" name="candidate" value="Durgesh" required>
+            <label for="candidate1">Durgesh</label><br>
+            <input type="radio" id="candidate2" name="candidate" value="Sheela" required>
+            <label for="candidate2">Sheela</label><br>
+            <input type="radio" id="candidate3" name="candidate" value="Rahul" required>
+            <label for="candidate3">Rahul</label><br>
+            <input type="radio" id="candidate4" name="candidate" value="Kaustubh" required>
+            <label for="candidate4">Kaustubh</label><br>
+            <button type="submit" id="submitVote">Vote</button>
+        </div>
+    </form>
+</body>
+</html>

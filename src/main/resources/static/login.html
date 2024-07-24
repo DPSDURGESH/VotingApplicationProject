@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Next Level Login & Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <form id="loginForm">
+        <div class="container">
+            <div class="form signup">
+                <h2>Log In</h2>
+                <div class="inputBox">
+                    <input type="text" id="usernameInput" required="required">
+                    <i class="fa-regular fa-user"></i>
+                    <span>username</span>
+                </div>
+                <div class="inputBox">
+                    <input type="password" id="passwordInput" required="required">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>password</span>
+                </div>
+                <div class="inputBox">
+                    <input type="submit" value="Log In" id="loginBtn"  >
+                </div>
+                <p>Not a member yet? <a href="sign.html" class="signup">Sign up</a></p>
+            </div>
+        </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Collect user data from input fields
+                var username = $('#usernameInput').val();
+                var password = $('#passwordInput').val();
+
+                // Construct login request object
+                var loginData = {
+                    "username": username,
+                    "password": password
+                };
+
+                // Send AJAX request
+                $.ajax({
+                    url: 'http://localhost:8080/auth/api/users/login',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(loginData),
+                    success: function (response) {
+                        // Check if login was successful based on the response
+                        if (response.success) {
+                            // Redirect to the dashboard page upon successful authentication
+                            window.location.href = '/voting.html';
+                        } else {
+                            // Display error message to the user
+                            alert("Login Failed! Please Try Again");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error here, like displaying an error message to the user
+                        alert("Login Failed! Please Try Again");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

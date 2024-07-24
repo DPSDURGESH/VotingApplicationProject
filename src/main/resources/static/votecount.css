@@ -1,0 +1,46 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Vote Counts Styling */
+#voteCounts {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#voteCounts p {
+    margin-bottom: 10px;
+}
+
+#voteCounts span {
+    font-weight: bold;
+    color: #007BFF;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #voteCounts {
+        width: 90%;
+    }
+}
